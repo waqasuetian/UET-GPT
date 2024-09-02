@@ -12,7 +12,7 @@ faiss-cpu
 # PyPDF2
 chromadb
 # faiss-gpu
-#sentence-transformers
+sentence-transformers
 # huggingface_hub
 langchain_chroma
 # langchain-groq
