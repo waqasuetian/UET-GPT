@@ -1,0 +1,17 @@
+pandas
+ipykernel
+streamlit
+langchain
+langchain-groq
+langchain_community
+python-dotenv
+pypdf
+openai
+langchain-openai
+# PyPDF2
+chromadb
+# faiss-gpu
+sentence-transformers
+huggingface_hub
+langchain_chroma
+langchain_huggingface
