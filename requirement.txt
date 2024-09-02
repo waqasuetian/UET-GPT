@@ -1,7 +1,7 @@
 pandas
 ipykernel
 streamlit
-langchain
+#langchain
 langchain-groq
 langchain_community
 python-dotenv
