@@ -1,18 +1,14 @@
+streamlit==1.29.0
 pandas
 ipykernel
 langchain-groq
 langchain_community
 pypdf
 openai
-langchain-openai
 faiss-cpu
-# PyPDF2
 chromadb
-# faiss-gpu
 sentence-transformers
-# huggingface_hub
 langchain_chroma
-# langchain-groq
 langchain_huggingface
-streamlit==1.29.0
 langchain==0.2.15
+python-dotenv
