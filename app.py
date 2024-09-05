@@ -13,15 +13,17 @@ from langchain_community.document_loaders import PyPDFLoader
 import os
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 os.environ['HF_TOKEN'] = os.getenv("HF_TOKEN")
 
+# Initialize HuggingFace embeddings
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 # Set up Streamlit UI
 st.set_page_config(page_title="UET_GPT", page_icon=":robot_face:", layout="centered")
 
-# Center-align UET Logo using st.image() and custom CSS
+# Display UET Logo in a centered format
 logo_path = "uet.png"  # Ensure that "uet.png" is in the same folder as your Python script
 st.markdown(
     """
@@ -34,7 +36,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 st.markdown('<div class="centered">', unsafe_allow_html=True)
 st.image(logo_path, width=130)
 st.markdown('</div>', unsafe_allow_html=True)
@@ -46,8 +47,9 @@ st.write("Ask Questions from UET_GPT")
 # Input the Groq API Key
 api_key = st.sidebar.text_input("Enter your Groq API key:", type="password")
 
-# Check if Groq API key is provided
+# Ensure that the API key is provided
 if api_key:
+    # Initialize Groq LLM
     llm = ChatGroq(groq_api_key=api_key, model_name="Gemma2-9b-It")
 
     # Session ID and Chat History Management
@@ -57,7 +59,7 @@ if api_key:
         st.session_state.store = {}
 
     # Load predefined PDF document
-    predefined_pdf_path = "PG_Final_2024_18_07_24.pdf"  # Spfy your PDF file path here
+    predefined_pdf_path = "PG_Final_2024_18_07_24.pdf"  # Specify your PDF file path here
     loader = PyPDFLoader(predefined_pdf_path)
     docs = loader.load()
 
@@ -84,7 +86,7 @@ if api_key:
 
     history_aware_retriever = create_history_aware_retriever(llm, retriever, contextualize_q_prompt)
 
-    # Answer question
+    # Create a system prompt for answering questions
     system_prompt = (
         "You are an assistant for question-answering tasks. "
         "Use the following pieces of retrieved context to answer "
@@ -104,11 +106,13 @@ if api_key:
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
     rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
+    # Manage session history
     def get_session_history(session: str) -> BaseChatMessageHistory:
         if session_id not in st.session_state.store:
             st.session_state.store[session_id] = ChatMessageHistory()
         return st.session_state.store[session_id]
 
+    # Initialize conversational RAG chain
     conversational_rag_chain = RunnableWithMessageHistory(
         rag_chain, get_session_history,
         input_messages_key="input",
@@ -117,7 +121,6 @@ if api_key:
     )
 
     # Question input
-    #st.subheader("Ask a Question")
     user_input = st.text_input("Your question:")
     if user_input:
         session_history = get_session_history(session_id)
