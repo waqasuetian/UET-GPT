@@ -1,6 +1,7 @@
 pandas
 ipykernel
 langchain-groq
+langchain
 langchain_community
 pypdf
 openai
@@ -15,4 +16,3 @@ langchain_chroma
 # langchain-groq
 langchain_huggingface
 streamlit==1.29.0
-langchain==0.2.15
